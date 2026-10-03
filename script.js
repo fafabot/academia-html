@@ -204,6 +204,7 @@ document.getElementById("demo-login").addEventListener("click", async function()
         updatedAt: new Date().toISOString()
       };
       await setDoc(ref, demo);
+      await criarDadosDemo(credencial.user.uid);
     }
   } catch (error) {
     mostrarCarregando(false);
@@ -820,7 +821,39 @@ function alimentosPadrao(){return[
 ]}
 
 // ========================================
-// 14 - TEMA DE LOGIN
+// 14 - DADOS DE DEMONSTRAÇÃO
+// ========================================
+
+async function criarDadosDemo(uid) {
+  let hojeDemo = "2026-10-02";
+  let pesosDemo = [
+    {date:"2026-09-08",weight:83.5,notes:"Início do ciclo"},
+    {date:"2026-09-15",weight:83.0,notes:"Primeira semana consistente"},
+    {date:"2026-09-22",weight:82.7,notes:"Boa definição muscular"},
+    {date:"2026-09-29",weight:82.4,notes:"Pesagem semanal em jejum"},
+    {date:"2026-10-02",weight:82.1,notes:"Meta de recomposição avançando"}
+  ];
+  for (let item of pesosDemo) {
+    await addDoc(collection(db,"users",uid,"weightHistory"),{userId:uid,...item,createdAt:new Date().toISOString()});
+  }
+
+  let treinosDemo = [
+    {title:"Treino A - Peitoral, Ombros e Tríceps",date:"2026-09-27",durationMinutes:65,totalVolume:7420,estimatedCaloriesBurned:430,progressionStatus:"evoluindo",progressionDiffPercent:4.8,notes:"Subi 2kg no supino reto mantendo boa técnica.",exercises:[{exerciseId:"demo1",exerciseName:"Supino Reto com Barra",category:"chest",isCardio:false,sets:[{setNumber:1,reps:10,weight:80,completed:true},{setNumber:2,reps:8,weight:84,completed:true},{setNumber:3,reps:8,weight:84,completed:true}]}]},
+    {title:"Treino B - Dorsais, Trapézio e Bíceps",date:"2026-09-29",durationMinutes:60,totalVolume:8250,estimatedCaloriesBurned:410,progressionStatus:"evoluindo",progressionDiffPercent:3.2,notes:"Execução cadenciada na remada.",exercises:[{exerciseId:"demo2",exerciseName:"Puxada Alta (Lat Pulldown)",category:"back",isCardio:false,sets:[{setNumber:1,reps:12,weight:65,completed:true},{setNumber:2,reps:10,weight:70,completed:true},{setNumber:3,reps:8,weight:75,completed:true}]}]},
+    {title:"Treino C - Membros Inferiores e Cardio",date:"2026-10-01",durationMinutes:75,totalVolume:9800,estimatedCaloriesBurned:580,progressionStatus:"evoluindo",progressionDiffPercent:5.1,notes:"Agachamento com amplitude completa + 20min esteira.",exercises:[{exerciseId:"demo3",exerciseName:"Agachamento Livre",category:"legs",isCardio:false,sets:[{setNumber:1,reps:10,weight:100,completed:true},{setNumber:2,reps:8,weight:110,completed:true},{setNumber:3,reps:6,weight:120,completed:true}]},{exerciseId:"demo4",exerciseName:"Esteira Corrida Intervalada",category:"cardio",isCardio:true,sets:[],cardioMinutes:20,cardioIntensity:"high",cardioDistanceKm:3.2}]}
+  ];
+  for (let treino of treinosDemo) await addDoc(collection(db,"users",uid,"workouts"),{userId:uid,...treino,createdAt:new Date().toISOString()});
+
+  let refeicoesDemo = [
+    {date:hojeDemo,mealType:"cafe_da_manha",totalCalories:480,totalProtein:32,totalCarbs:58,totalFat:12,items:[{foodId:"f_aveia",name:"Aveia em Flocos",quantity:45,calories:159,protein:6.3,carbs:25.5,fat:3.3},{foodId:"f_whey",name:"Whey Protein",quantity:30,calories:120,protein:24,carbs:3,fat:1.5},{foodId:"f_banana",name:"Banana Prata",quantity:1,calories:89,protein:1.1,carbs:22.8,fat:.3}]},
+    {date:hojeDemo,mealType:"almoco",totalCalories:690,totalProtein:55,totalCarbs:72,totalFat:16,items:[{foodId:"f_frango",name:"Peito de Frango Grelhado",quantity:160,calories:264,protein:49.6,carbs:0,fat:5.7},{foodId:"f_arroz",name:"Arroz Branco Cozido",quantity:220,calories:286,protein:5.9,carbs:62,fat:.7}]},
+    {date:hojeDemo,mealType:"jantar",totalCalories:620,totalProtein:48,totalCarbs:65,totalFat:14,items:[{foodId:"f_patinho",name:"Patinho Moído Grelhado",quantity:140,calories:306,protein:50.2,carbs:0,fat:10.2},{foodId:"f_batata",name:"Batata Doce Cozida",quantity:250,calories:215,protein:4,carbs:50.2,fat:.2}]}
+  ];
+  for (let refeicao of refeicoesDemo) await addDoc(collection(db,"users",uid,"meals"),{userId:uid,...refeicao,createdAt:new Date().toISOString()});
+}
+
+// ========================================
+// 15 - TEMA DE LOGIN
 // ========================================
 
 document.getElementById("login-tab").addEventListener("click",function(){document.getElementById("login-tab").classList.add("active");document.getElementById("signup-tab").classList.remove("active");loginForm.classList.remove("hidden");signupForm.classList.add("hidden");authMessage.textContent=""});
