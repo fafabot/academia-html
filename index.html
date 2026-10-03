@@ -3,33 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Academia Aura - treino, alimentação e evolução.">
   <title>Academia Aura</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
-    <div id="login-screen" class="login-screen">
+    <section id="login-screen" class="login-screen">
       <div class="login-card">
         <div class="logo-circle">A</div>
-        <h1>Academia Aura</h1>
-        <p>Seu treino, alimentação e evolução em um só lugar.</p>
+        <div class="eyebrow">ACADEMIA AURA</div>
+        <h1>Seu desempenho em um só lugar.</h1>
+        <p class="login-description">Treinos, alimentação, evolução e uma assistente inteligente para acompanhar sua rotina.</p>
+
+        <div class="auth-tabs">
+          <button id="login-tab" class="auth-tab active">Entrar</button>
+          <button id="signup-tab" class="auth-tab">Criar conta</button>
+        </div>
+
         <form id="login-form">
-          <label for="email">E-mail</label>
-          <input id="email" type="email" placeholder="seu@email.com" required>
-          <label for="password">Senha</label>
-          <input id="password" type="password" placeholder="••••••••" required>
-          <button type="submit" class="primary-button">Entrar</button>
+          <label for="login-email">E-mail</label>
+          <input id="login-email" type="email" autocomplete="email" placeholder="seu@email.com" required>
+          <label for="login-password">Senha</label>
+          <input id="login-password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+          <button class="primary-button" type="submit">Entrar</button>
+          <button id="forgot-password" class="text-button" type="button">Esqueci minha senha</button>
         </form>
-        <button id="demo-login" class="secondary-button">Entrar em modo demonstração</button>
-        <small>Versão HTML + CSS + JavaScript</small>
+
+        <form id="signup-form" class="hidden">
+          <label for="signup-name">Nome</label>
+          <input id="signup-name" type="text" placeholder="Seu nome" required>
+          <label for="signup-email">E-mail</label>
+          <input id="signup-email" type="email" placeholder="seu@email.com" required>
+          <label for="signup-password">Senha</label>
+          <input id="signup-password" type="password" minlength="6" placeholder="Mínimo de 6 caracteres" required>
+          <div class="form-grid">
+            <div><label for="signup-weight">Peso (kg)</label><input id="signup-weight" type="number" min="1" step="0.1" value="75"></div>
+            <div><label for="signup-height">Altura (cm)</label><input id="signup-height" type="number" min="50" max="250" value="175"></div>
+          </div>
+          <button class="primary-button" type="submit">Criar minha conta</button>
+        </form>
+
+        <div class="login-divider"><span>ou</span></div>
+        <button id="demo-login" class="secondary-button" type="button">Entrar em modo demonstração</button>
+        <p id="auth-message" class="form-message"></p>
+        <small>HTML + CSS + JavaScript + Firebase</small>
       </div>
-    </div>
+    </section>
+
+    <section id="loading-screen" class="loading-screen hidden">
+      <div class="logo-circle">A</div>
+      <p>Carregando sua Academia Aura...</p>
+    </section>
 
     <div id="dashboard" class="dashboard hidden">
-      <aside class="sidebar">
+      <aside id="sidebar" class="sidebar">
         <button class="brand" data-page="overview">
           <span class="brand-mark">A</span>
-          <span><strong>Academia Aura</strong><small>App da Web</small></span>
+          <span><strong>Academia Aura</strong><small>Plataforma Fitness</small></span>
         </button>
 
         <div class="side-title">Sua rotina</div>
@@ -39,13 +69,12 @@
           <button class="nav-item" data-page="diet">◉ <span>Alimentação</span></button>
           <button class="nav-item" data-page="evolution">↗ <span>Evolução</span></button>
           <button class="nav-item" data-page="profile">♙ <span>Perfil</span></button>
-          <button class="nav-item" data-page="aura">✦ <span>Aura</span></button>
         </nav>
 
         <div class="sidebar-bottom">
           <div class="mini-user">
-            <div class="avatar">A</div>
-            <div><strong id="sidebar-name">Atleta</strong><small>Modo demonstração</small></div>
+            <div id="sidebar-avatar" class="avatar">A</div>
+            <div><strong id="sidebar-name">Atleta</strong><small id="sidebar-email">Conta Aura</small></div>
           </div>
           <button id="logout-button" class="nav-item">↪ <span>Sair da conta</span></button>
         </div>
@@ -54,17 +83,37 @@
       <main class="main-area">
         <header class="topbar">
           <div>
-            <strong>Plataforma Integrada de Treino e Alimentação</strong>
-            <span>Dados sincronizados</span>
+            <strong id="topbar-title">Visão geral</strong>
+            <span><i class="status-dot"></i> Dados sincronizados</span>
           </div>
-          <button id="mobile-menu" class="mobile-menu-button">☰</button>
+          <div class="topbar-actions">
+            <button id="theme-button" class="icon-button" title="Alternar tema">◐</button>
+            <button id="aura-button" class="aura-top-button">✦ Aura</button>
+            <button id="mobile-menu" class="mobile-menu-button">☰</button>
+          </div>
         </header>
-
+        <div id="mobile-nav" class="mobile-nav hidden"></div>
         <div id="page-content" class="page-content"></div>
       </main>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <button id="aura-launcher" class="aura-launcher hidden" title="Abrir Aura">✦</button>
+    <section id="aura-panel" class="aura-panel hidden">
+      <div class="aura-header">
+        <div class="aura-title"><div class="aura-icon">✦</div><div><strong>Aura</strong><small>Sua assistente inteligente</small></div></div>
+        <button id="aura-close" class="close-button">×</button>
+      </div>
+      <div id="aura-messages" class="aura-messages"></div>
+      <div id="aura-preview" class="aura-preview hidden"></div>
+      <div class="aura-input-area">
+        <input id="aura-file" type="file" accept="image/*" class="hidden">
+        <button id="aura-photo" class="icon-button" title="Analisar foto">◫</button>
+        <input id="aura-input" class="aura-input" placeholder="Digite sua dúvida..." autocomplete="off">
+        <button id="aura-send" class="send-button">➤</button>
+      </div>
+      <p class="aura-note">As estimativas nutricionais por foto são aproximadas.</p>
+    </section>
+  </div>
+  <script type="module" src="/script.js"></script>
 </body>
 </html>
