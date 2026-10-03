@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Aura</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="login-screen" class="login-screen">
+      <div class="login-card">
+        <div class="logo-circle">A</div>
+        <h1>Academia Aura</h1>
+        <p>Seu treino, alimentação e evolução em um só lugar.</p>
+        <form id="login-form">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="seu@email.com" required>
+          <label for="password">Senha</label>
+          <input id="password" type="password" placeholder="••••••••" required>
+          <button type="submit" class="primary-button">Entrar</button>
+        </form>
+        <button id="demo-login" class="secondary-button">Entrar em modo demonstração</button>
+        <small>Versão HTML + CSS + JavaScript</small>
+      </div>
+    </div>
+
+    <div id="dashboard" class="dashboard hidden">
+      <aside class="sidebar">
+        <button class="brand" data-page="overview">
+          <span class="brand-mark">A</span>
+          <span><strong>Academia Aura</strong><small>App da Web</small></span>
+        </button>
+
+        <div class="side-title">Sua rotina</div>
+        <nav>
+          <button class="nav-item active" data-page="overview">⌂ <span>Visão geral</span></button>
+          <button class="nav-item" data-page="workouts">▣ <span>Treinos</span></button>
+          <button class="nav-item" data-page="diet">◉ <span>Alimentação</span></button>
+          <button class="nav-item" data-page="evolution">↗ <span>Evolução</span></button>
+          <button class="nav-item" data-page="profile">♙ <span>Perfil</span></button>
+          <button class="nav-item" data-page="aura">✦ <span>Aura</span></button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="mini-user">
+            <div class="avatar">A</div>
+            <div><strong id="sidebar-name">Atleta</strong><small>Modo demonstração</small></div>
+          </div>
+          <button id="logout-button" class="nav-item">↪ <span>Sair da conta</span></button>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div>
+            <strong>Plataforma Integrada de Treino e Alimentação</strong>
+            <span>Dados sincronizados</span>
+          </div>
+          <button id="mobile-menu" class="mobile-menu-button">☰</button>
+        </header>
+
+        <div id="page-content" class="page-content"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
